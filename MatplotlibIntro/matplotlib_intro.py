@@ -4,7 +4,8 @@
 <Class>
 <Date>
 """
-
+import numpy as np
+from matplotlib import pyplot as plt
 
 # Problem 1
 def var_of_means(n):
@@ -18,21 +19,38 @@ def var_of_means(n):
     Returns:
         (float) The variance of the means of each row.
     """
+    arr = np.random.normal(size=(n, n))
+    mean = np.mean(arr, axis=1, keepdims=True)
+    return np.var(mean)
+try:
+    print( var_of_means(100))
+except:
     raise NotImplementedError("Problem 1 Incomplete")
 
 def prob1():
     """ Create an array of the results of var_of_means() with inputs
     n = 100, 200, ..., 1000. Plot and show the resulting array.
     """
+    n=np.arange(1, 11)*100
+    yarr=np.array([var_of_means(i) for i in n])
+    return plt.plot(n,yarr)
+try: prob1(), plt.show(), plt.clf() 
+except:
     raise NotImplementedError("Problem 1 Incomplete")
-
-
+    
 # Problem 2
 def prob2():
     """ Plot the functions sin(x), cos(x), and arctan(x) on the domain
     [-2pi, 2pi]. Make sure the domain is refined enough to produce a figure
     with good resolution.
     """
+    x=np.linspace(-2*np.pi, 2*np.pi, 100)
+    y1=np.sin(x)
+    y2=np.cos(x)
+    y3=np.arctan(x)
+    return plt.plot(x, y1), plt.plot(x, y2), plt.plot(x, y3)
+try: prob2(), plt.show(), plt.clf() 
+except:
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -44,6 +62,13 @@ def prob3():
         3. Set the range of the x-axis to [-2,6] and the range of the
            y-axis to [-6,6].
     """
+    x1 = np.linspace(-2, 0.99, 300)
+    x2 = np.linspace(1.01, 6, 500)
+    y1= np.array([1/(i-1) for i in x1])
+    y2= np.array([1/(i-1) for i in x2])
+    return plt.plot(x1, y1, 'm--', lw=4), plt.plot(x2, y2, 'm--', lw=4), plt.xlim(-2, 6), plt.ylim(-6, 6)
+try: prob3(), plt.show(), plt.clf()
+except:
     raise NotImplementedError("Problem 3 Incomplete")
 
 
@@ -61,6 +86,20 @@ def prob4():
              2sin(x): blue dashed line.
             2sin(2x): magenta dotted line.
     """
+    x=np.linspace(0, 2*np.pi, 200)
+    
+    ax1=plt.subplot(221)
+    ax2=plt.subplot(222) 
+    ax3=plt.subplot(223)
+    ax4=plt.subplot(224)
+    ax1.set_title("sin(x)")
+    ax2.set_title("sin(2x)")
+    ax3.set_title("2sin(x)")
+    ax4.set_title("2sin(2x)")
+    plt.suptitle("Some Sinusoids :)")
+    return ax1.plot(x, np.sin(x), 'g-'), ax2.plot(x, np.sin(2*x), 'r--'), ax3.plot(x, 2*np.sin(x), 'b--'), ax4.plot(x, 2*np.sin(2*x), 'm:'), plt.axis([0, 2*np.pi, -2, 2])
+try: prob4(), plt.show(), plt.clf()
+except:
     raise NotImplementedError("Problem 4 Incomplete")
 
 
@@ -88,4 +127,17 @@ def prob6():
         3. Choose a non-default color scheme.
         4. Include a color scale bar for each subplot.
     """
+    x=np.linspace(-2*np.pi, 2*np.pi)
+    y=x
+    X, Y = np.meshgrid(x, y)
+    Z=np.sin(X)*np.sin(Y)/(X*Y)
+    ax1=plt.subplot(121)
+    ax2=plt.subplot(122)
+    cont =ax1.contour(X, Y, Z, 20, cmap="viridis")
+    heat =ax2.pcolormesh(X, Y, Z, cmap="magma", shading="auto")
+    cbar1 = plt.colorbar(cont, ax=ax1)
+    cbar2 = plt.colorbar(heat, ax=ax2) 
+    return cont, heat, cbar1, cbar2
+try: prob6(), plt.show()
+except:
     raise NotImplementedError("Problem 6 Incomplete")
