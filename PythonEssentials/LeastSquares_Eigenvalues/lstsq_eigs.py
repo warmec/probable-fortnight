@@ -1,8 +1,8 @@
 # lstsq_eigs.py
 """Volume 1: Least Squares and Computing Eigenvalues.
-<Name>
-<Class>
-<Date>
+<Camden Warme>
+<MTH 420>
+<5/21/23>
 """
 
 # (Optional) Import functions from your QR Decomposition lab.
@@ -12,7 +12,7 @@
 
 import numpy as np
 from matplotlib import pyplot as plt
-
+from scipy import linalg as la
 
 # Problem 1
 def least_squares(A, b):
@@ -26,6 +26,13 @@ def least_squares(A, b):
     Returns:
         x ((n, ) ndarray): The solution to the normal equations.
     """
+    Q, R = np.linalg.qr(A)
+    c=np.dot(Q.T, b)
+    x=la.solve_triangular(R,c)
+    return x
+try:
+    print(least_squares(np.array([[1, 0],[0, 1],[0.5, 3]]), np.array([[0,0,1]]).T))
+except:
     raise NotImplementedError("Problem 1 Incomplete")
 
 # Problem 2
@@ -34,6 +41,15 @@ def line_fit():
     index for the data in housing.npy. Plot both the data points and the least
     squares line.
     """
+    H=np.load("housing.npy")
+    b=H[:, 1].reshape((33, 1))
+    A=np.column_stack((H[:, 0].reshape((33, 1)), np.ones(b.shape)))
+    x=least_squares(A, b)
+    plt.scatter(H[:,0], H[:,1], marker='x')
+    plt.plot(H[:, 0],x[0]*H[:, 0]+x[1])
+    return x
+try: print(line_fit()), plt.show()
+except:
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -43,6 +59,39 @@ def polynomial_fit():
     the year to the housing price index for the data in housing.npy. Plot both
     the data points and the least squares polynomials in individual subplots.
     """
+    H=np.load("housing.npy")
+    b=H[:, 1].reshape((33, 1))
+    x=np.linspace(0, 16, 1600)
+    
+    A1=np.vander(H[:,0], 4)
+    A2=np.vander(H[:,0], 7)
+    A3=np.vander(H[:,0],10)
+    A4=np.vander(H[:,0], 13)
+    
+    x1=la.lstsq(A1, b)[0]
+    f1=np.poly1d(x1.flatten())
+    x2=la.lstsq(A2,b)[0]
+    f2=np.poly1d(x2.flatten())
+    x3=la.lstsq(A3, b)[0]
+    f3=np.poly1d(x3.flatten())
+    x4=la.lstsq(A4, b)[0]
+    f4=np.poly1d(x4.flatten())
+    
+    ax1=plt.subplot(221)
+    ax2=plt.subplot(222) 
+    ax3=plt.subplot(223)
+    ax4=plt.subplot(224)
+    ax1.scatter(H[:,0], H[:,1], marker='x')
+    ax2.scatter(H[:,0], H[:,1],marker='x')
+    ax3.scatter(H[:,0], H[:,1],marker='x')
+    ax4.scatter(H[:,0], H[:,1],marker='x')
+    ax1.plot(x, f1(x))
+    ax2.plot(x, f2(x))
+    ax3.plot(x, f3(x))
+    ax4.plot(x, f4(x))
+    plt.show()
+try: polynomial_fit()
+except:
     raise NotImplementedError("Problem 3 Incomplete")
 
 
