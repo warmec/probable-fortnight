@@ -1,8 +1,8 @@
 # drazin.py
 """Volume 1: The Drazin Inverse.
-<Name>
-<Class>
-<Date>
+Camden Warme
+MTH 420
+05/28/23
 """
 
 import numpy as np
@@ -50,6 +50,15 @@ def is_drazin(A, Ad, k):
     Returns:
         (bool) True of Ad is the Drazin inverse of A, False otherwise.
     """
+    k=index(A)
+    x=np.allclose(np.dot(A, Ad), np.dot(Ad, A))
+    y=np.allclose(np.dot(np.linalg.matrix_power(A, k+1), Ad), np.linalg.matrix_power(A, k))
+    z=np.allclose(np.dot(np.dot(Ad, A), Ad), Ad)
+    if (x==True)and(y==True)and(z==True):
+        return True
+    else: return False
+try: print(is_drazin(np.array([[1,3,0,0], [0,1,3,0], [0,0,1,3], [0,0,0,0]]), np.array([[1,-3,9,81], [0,1,-3,-18], [0,0,1,3], [0,0,0,0]]), 1), is_drazin(np.array([[1,1,3], [5,2,6], [-2,-1,-3]]),np.zeros((3,3)), 3))
+except:
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -63,6 +72,13 @@ def drazin_inverse(A, tol=1e-4):
     Returns:
        ((n,n) ndarray) The Drazin inverse of A.
     """
+    (n,n)=A.shape
+    f1 = lambda x: abs(x) > 0
+    T1,Q1,k1=la.schur(A, sort=f1)
+    T,Z=la.schur(np.array([[1,0],[0,1]]))
+    return Z
+try: print(drazin_inverse(1, tol=1e-4))
+except:
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -110,9 +126,9 @@ class LinkPredictor:
         Raises:
             ValueError: If node is not in the graph.
         """
-        raise NotImplementedError("Problem 5 Incomplete"
+        raise NotImplementedError("Problem 5 Incomplete")
 
-
+    
     def add_link(self, node1, node2):
         """Add a link to the graph between node 1 and node 2 by updating the
         adjacency matrix and the effective resistance matrix.
