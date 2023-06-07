@@ -2,7 +2,7 @@
 # Download data files and place them in the lab folders.
 
 SOURCE="https://github.com/Foundations-of-Applied-Mathematics/Data.git"
-LABS=("DataVisualization" "Exceptions_FileIO" "MatplotlibIntro" "NumpyIntro" "Profiling")
+LABS=("BinaryTrees" "BreadthFirstSearch" "CVXPY_Intro" "FourierTransform" "GradientMethods" "InteriorPoint_Linear" "InteriorPoint_Quadratic" "LinkedLists" "MarkovChains" "NMF" "NearestNeighbor" "PolynomialInterpolation" "Simplex" "Wavelets")
 GIT="https://git-scm.com"
 TEMPDIR="_DATA_"`date +%s`"_"
 
