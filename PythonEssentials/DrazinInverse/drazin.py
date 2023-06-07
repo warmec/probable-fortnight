@@ -74,10 +74,17 @@ def drazin_inverse(A, tol=1e-4):
     """
     (n,n)=A.shape
     f1 = lambda x: abs(x) > 0
+    f2 = lambda x: abs(x) <= 0
     T1,Q1,k1=la.schur(A, sort=f1)
-    T,Z=la.schur(np.array([[1,0],[0,1]]))
-    return Z
-try: print(drazin_inverse(1, tol=1e-4))
+    T2,Q2,k2=la.schur(A, sort=f2)
+    U=np.hstack((Q1[:,:k1], Q2[:, :(n-k1)]))
+    V=np.dot(np.linalg.inv(U), np.dot(A, U))
+    Z=np.zeros((n, n))
+    if k1 !=0:
+        M_inv=np.linalg.inv(V[:k1, :k1])
+        Z[:k1, :k1]=M_inv
+    return np.dot(np.dot(U, Z),np.linalg.inv(U))
+try: print(drazin_inverse(np.array([[1,3,0,0], [0,1,3,0], [0,0,1,3], [0,0,0,0]]), tol=1e-4))
 except:
     raise NotImplementedError("Problem 2 Incomplete")
 
@@ -93,6 +100,21 @@ def effective_resistance(A):
         ((n,n) ndarray) The matrix where the ijth entry is the effective
         resistance from node i to node j.
     """
+    (n,n)=A.shape
+    D=np.diag(np.sum(A, axis=1))
+    L=D-A
+    L_tilde_j=L
+    R=np.zeros((n,n))
+    for i in range(0, n):
+        for j in range(0,n):
+            L_tilde_j[j,:]=np.eye(n)[j,:]
+            L_Draz=drazin_inverse(L_tilde_j, tol=1e-4)
+            R[i,j]=L_Draz[i,i]
+            L_tilde_j=L
+        R[i,i]=0
+    return R
+try: print(effective_resistance(np.array([[0,3],[3,0]])))
+except:  
     raise NotImplementedError("Problem 3 Incomplete")
 
 
