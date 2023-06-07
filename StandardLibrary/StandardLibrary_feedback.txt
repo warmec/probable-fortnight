@@ -4,3 +4,26 @@ NotImplementedError while loading 'standard_library.py': Problem 3 Incomplete
 
 -------------------------------------------------------------------------------
 
+06/07/23 19:12
+
+Problem 1 (5 points):
+IndexError: Replacement index 1 out of range for positional args tuple
+
+Problem 2 (5 points):
+Score += 5
+
+Problem 3 (10 points):
+Score += 10
+
+Problem 4 (10 points):
+Score += 10
+
+Code Quality (20 points):
+Score += 20
+
+Total score: 45/50 = 90.0%
+
+Great job!
+
+-------------------------------------------------------------------------------
+
