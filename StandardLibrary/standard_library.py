@@ -11,7 +11,7 @@ def prob1(L):
     """Return the minimum, maximum, and average of the entries of L
     (in that order, separated by a comma).
     """
-    return [min(L), max(L), sum(L)/len(L)]
+    return min(L), max(L), sum(L)/len(L)
 try:
     print(prob1([1, 2, 3, 4, 5]))
 except:
