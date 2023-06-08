@@ -32,7 +32,7 @@ def prob3():
     this section of the manual (not np.array()). Calculate the matrix product ABA,
     change its data type to np.int64, and return it.
     """
-    A=np.ones((7, 7))
+    A=np.triu(np.ones((7, 7)))
     B=np.tril(-1*np.ones((7, 7)))+np.triu(5*np.ones((7, 7)))+np.diag(-5*np.ones(7))
     ABA=np.dot(np.dot(A, B), A)
     ABA=ABA.astype(np.int64)
@@ -52,10 +52,11 @@ def prob4(A):
         >>> prob4(A)
         array([0, 0, 3])
     """
-    mask = A<0
-    A[mask]=0
-    return A
-try: print(prob4(np.array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])))
+    Anew=A[:]
+    mask = Anew<0
+    Anew[mask]=0
+    return Anew
+try: print(prob4(np.array([[-1, 5, -5], [0, -1, 0], [0, 0, -1]])))
 except:
     
     
@@ -75,7 +76,7 @@ def prob5():
     A=np.array([[0, 2, 4], [1, 3, 5]])
     B=np.tril(3*np.ones((3, 3)))
     C=-2*np.diag(np.ones(3))
-    return  np.hstack((np.vstack((np.zeros((4, 3)), A, B)), np.vstack((np.concatenate((np.zeros((3, 1)), A.T), axis=1), np.zeros((6, 3)))), np.vstack((I, np.zeros((3, 3)), C))))
+    return  np.hstack((np.vstack((np.zeros((3, 3)), A, B)), np.vstack((A.T, np.zeros((5, 2)))), np.vstack((I, np.zeros((2, 3)), C))))
 try: print(prob5())
 except:
     raise NotImplementedError("Problem 5 Incomplete")
