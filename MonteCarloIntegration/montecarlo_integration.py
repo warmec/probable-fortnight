@@ -1,10 +1,11 @@
 # montecarlo_integration.py
 """Volume 1: Monte Carlo Integration.
-<Name>
-<Class>
-<Date>
+Camden Warme
+MTH 420
+6/9/23
 """
-
+import numpy as np
+from scipy import linalg as la
 
 # Problem 1
 def ball_volume(n, N=10000):
@@ -18,6 +19,12 @@ def ball_volume(n, N=10000):
     Returns:
         (float): An estimate for the volume of the n-dimensional unit ball.
     """
+    points = np.random.uniform(-1,1,(n,N))
+    lengths=la.norm(points, axis=0)
+    num_within=np.count_nonzero(lengths<1)
+    return (2**n)*(num_within/N)
+try: print(ball_volume(2))
+except:
     raise NotImplementedError("Problem 1 Incomplete")
 
 
@@ -39,6 +46,12 @@ def mc_integrate1d(f, a, b, N=10000):
         >>> mc_integrate1d(f, -4, 2)    # Integrate from -4 to 2.
         23.734810301138324              # The true value is 24.
     """
+    points=np.random.uniform(a,b,(1,N))
+    return (b-a)*(1/N)*np.sum(f(points))
+try:
+    f = lambda x: x**0
+    print(mc_integrate1d(f, -4, 2))
+except:
     raise NotImplementedError("Problem 2 Incomplete")
 
 
@@ -64,6 +77,20 @@ def mc_integrate(f, mins, maxs, N=10000):
         >>> mc_integrate(f, [1, -2], [3, 1])
         53.562651072181225              # The true value is 54.
     """
+    n=len(mins)
+    points=np.random.uniform(0,1,(n,N))
+    scale=[x-y for x,y in zip(maxs,mins)]
+    arr_sc=np.diag(scale)
+    points_sc=np.dot(arr_sc,points)
+    arr_mins=np.array(mins).reshape((n,1))
+    final_pts=points_sc+arr_mins
+    
+    V=np.prod(scale)
+    return V*np.sum(f(final_pts))/N
+try:
+    f=lambda x: x[0]+x[1]-x[3]*x[2]**2
+    print(mc_integrate(f, [-1,-2,-3,-4], [1,2,3,4]))
+except:
     raise NotImplementedError("Problem 3 Incomplete")
 
 
