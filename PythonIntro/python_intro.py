@@ -123,7 +123,7 @@ def pig_latin(word):
     length=len(word)
     vowels={'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
     if word[0] in vowels:
-        word=word+'yay'
+        word=word+'hay'
     else:    
         word=word[1:length]+word[0]+'ay'
     return word
