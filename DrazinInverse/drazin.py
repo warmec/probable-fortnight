@@ -107,7 +107,7 @@ def effective_resistance(A):
     (n,n)=A.shape
     D=np.diag(np.sum(A, axis=1))
     L=D-A
-    Draz= la.pinv(L)
+    Draz= drazin_inverse(L, tol=1e-4)
     R=np.zeros((n,n))
     for i in range(0, n):
         for j in range(i+1,n):
