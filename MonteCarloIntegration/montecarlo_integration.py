@@ -79,14 +79,16 @@ def mc_integrate(f, mins, maxs, N=10000):
     """
     n=len(mins)
     points=np.random.uniform(0,1,(n,N))
-    scale=[x-y for x,y in zip(maxs,mins)]
+    scale=np.array([x-y for x,y in zip(maxs,mins)])
     arr_sc=np.diag(scale)
     points_sc=np.dot(arr_sc,points)
     arr_mins=np.array(mins).reshape((n,1))
     final_pts=points_sc+arr_mins
-    
     V=np.prod(scale)
-    return V*np.sum(f(final_pts))/N
+    columns=final_pts.T.tolist()
+    f_sum=sum([f(i) for i in columns])
+    f_max=min([f(i) for i in columns])
+    return V*f_sum/N, f_max
 try:
     f=lambda x: x[0]+x[1]-x[3]*x[2]**2
     print(mc_integrate(f, [-1,-2,-3,-4], [1,2,3,4]))
