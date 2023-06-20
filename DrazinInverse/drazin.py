@@ -85,7 +85,7 @@ def drazin_inverse(A, tol=1e-4):
         Z[:k1, :k1]=M_inv
         return np.dot(np.dot(U, Z),la.inv(U))
     else:
-        return np.dot(np.dot(U, Z),np.la.inv(U))
+        return np.dot(np.dot(U, Z),la.inv(U))
 
         
 try: print(drazin_inverse(np.array([[1,3,0,0], [0,1,3,0], [0,0,1,3], [0,0,0,0]]), tol=1e-4))
